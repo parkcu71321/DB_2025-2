@@ -1,0 +1,67 @@
+create table 회원(
+    회원아이디 int primary key,
+    비밀번호 varchar(20) not null,
+    이름 varchar(20) not null,
+    나이 int,
+    직업 varchar(20),
+    등급 varchar(20) not null,
+    적립금 int not null
+)
+alter table 회원
+add check (나이>=0)
+
+alter table 회원
+add check (등급 in('silver','gold','vip'))
+
+alter table 회원
+modify 회원아이디 varchar(30);
+
+CREATE TABLE 상품 (
+    상품번호      VARCHAR(20) PRIMARY KEY,      
+    상품명        VARCHAR(50) NOT NULL,
+    재고량        INT NOT NULL,  
+    단가          INT,           
+    제조업체명    VARCHAR(30),                      
+    공급일자      DATE NOT NULL,
+    공급량        INT NOT NULL,
+    
+    CHECK (재고량 >= 0),
+    CHECK (단가 >= 0)
+);
+alter table 상품
+modify 재고량 default 0;
+alter table 상품
+modify 단가 default 0;
+alter table 상품
+modify 공급량 default 0;
+
+create table 게시글(
+    글번호 int NOT NULL primary key,
+    작성일자 date not null,
+    글제목 varchar(100),
+    글내용 varchar(100) not null,
+    회원아이디 varchar(30) not null,
+    
+    foreign key (회원아이디) references 회원(회원아이디)
+);
+
+create table 주문1(
+    주문수량 int not null,
+    주문번호 int not null,
+    주문일자 date not null,
+    배송지 varchar(50) not null,
+    회원아이디 varchar(30),
+    상품번호 varchar(20),
+    
+    foreign key (회원아이디) references 회원(회원아이디),
+    foreign key (상품번호) references 상품(상품번호)
+);
+
+create table 제조업체(
+    제조업체 varchar(50) primary key,
+    전화번호 varchar(50) not null,
+    위치 varchar(50) not null,
+    단가 int not null
+)
+
+
